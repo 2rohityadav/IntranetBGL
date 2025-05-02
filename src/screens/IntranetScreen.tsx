@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {View, StyleSheet, ActivityIndicator, Image, Text} from 'react-native';
+import {View, StyleSheet, ActivityIndicator, Image} from 'react-native';
 import {WebView} from 'react-native-webview';
 
 // Import images
@@ -10,8 +10,6 @@ const IntranetScreen = () => {
     'https://intranet.natwestgrouppeople.com/Content/Page/Index/e3c5c097-ce2b-45af-86ad-5a1c8997787b?forceApprovalStatus=False&reviewComplete=False';
   const webViewRef = useRef<WebView>(null);
   const HEADER_HEIGHT = 100; // Adjust this based on the banner height
-  const FOOTER_HEIGHT = 300; // Define a constant for the footer height
-  const [showFooter, setShowFooter] = React.useState(false);
 
   const injectedScrollJS = `
     (function() {
@@ -114,11 +112,6 @@ const IntranetScreen = () => {
           resizeMode="cover"
         />
       </View>
-      {showFooter && (
-        <View style={[styles.footerOverlay, {height: FOOTER_HEIGHT}]}>
-          <Text style={styles.overlayText} />
-        </View>
-      )}
     </View>
   );
 };
