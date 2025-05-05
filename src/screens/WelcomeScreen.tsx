@@ -17,8 +17,8 @@ const WelcomeScreen = ({navigation}: WelcomeScreenProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Welcome to Coutts</Text>
-        <Text style={styles.subtitle}>Banking Excellence Since 1692</Text>
+        <Text style={styles.title}>Welcome to NatWest Group</Text>
+        <Text style={styles.subtitle}>Banking Excellence Since 1968</Text>
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button: {
-    backgroundColor: '#00204E',
+    backgroundColor: '#5E2590',
     paddingVertical: 15,
     borderRadius: 8,
     alignItems: 'center',

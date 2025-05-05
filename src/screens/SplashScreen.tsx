@@ -20,7 +20,7 @@ const SplashScreen = ({navigation}: SplashScreenProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.text}>Coutts</Text>
+        <Text style={styles.text}>NatWest</Text>
       </View>
     </SafeAreaView>
   );
@@ -29,7 +29,7 @@ const SplashScreen = ({navigation}: SplashScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#00204E', // Dark navy blue
+    backgroundColor: '#5E2590', // Dark navy blue
   },
   content: {
     flex: 1,
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: 36,
-    fontStyle: 'italic',
   },
 });
 
