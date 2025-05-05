@@ -35,6 +35,21 @@ const IntranetScreen = () => {
         }
       }
 
+      function removePublishDateDiv() {
+        try {
+          const mainFrame = document.getElementById('main');
+          if (mainFrame && mainFrame.contentDocument) {
+            const publishDateDiv = mainFrame.contentDocument.querySelector('#pageControl_publishDate');
+            if (publishDateDiv) {
+              publishDateDiv.remove();
+              console.log('Publish date div removed successfully');
+            }
+          }
+        } catch (e) {
+          // Silently ignore errors
+        }
+      }
+
       function topNewsSidebar() {
         try {
           const mainFrame = document.getElementById('main');
@@ -57,13 +72,15 @@ const IntranetScreen = () => {
       removeFooter();
       removeBreakingNewsOverlay();
       topNewsSidebar();
+      removePublishDateDiv();
 
       // Try again after a short delay to ensure everything is loaded
       setTimeout(() => {
         removeFooter();
         removeBreakingNewsOverlay();
         topNewsSidebar();
-      }, 1000);
+        removePublishDateDiv();
+      }, 500);
 
       // MutationObserver for iframe content
       function observeIframeContent() {
@@ -73,6 +90,7 @@ const IntranetScreen = () => {
             const iframeObserver = new MutationObserver(() => {
               removeFooter();
               topNewsSidebar();
+              removePublishDateDiv();
             });
             iframeObserver.observe(mainFrame.contentDocument.body, {
               childList: true,
@@ -89,6 +107,7 @@ const IntranetScreen = () => {
         observeIframeContent();
         removeBreakingNewsOverlay();
         topNewsSidebar();
+        removePublishDateDiv();
       });
       observer.observe(document, {
         childList: true,
