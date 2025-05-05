@@ -1,11 +1,13 @@
-import React, {useRef} from 'react';
-import {View, StyleSheet, ActivityIndicator, Image} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {View, StyleSheet, Image} from 'react-native';
 import {WebView} from 'react-native-webview';
+import Spinner from '../components/Spinner';
 
 // Import images
 const natwestBanner = require('../assets/images/banner.png');
 
 const IntranetScreen = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const INTRANET_URL =
     'https://intranet.natwestgrouppeople.com/Content/Page/Index/e3c5c097-ce2b-45af-86ad-5a1c8997787b?forceApprovalStatus=False&reviewComplete=False';
   const webViewRef = useRef<WebView>(null);
@@ -97,6 +99,9 @@ const IntranetScreen = () => {
         topNewsSidebar();
         handleAuthorLinks();
         removePublishDateDiv();
+        
+        // Notify React Native that cleanup is complete
+        window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'cleanupComplete' }));
       }, 500);
 
       // MutationObserver for iframe content
@@ -135,11 +140,19 @@ const IntranetScreen = () => {
 
       // Also try to observe iframe content immediately
       observeIframeContent();
-
-      window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'debug', msg: 'Setup complete' }));
-      true;
     })();
   `;
+
+  const handleMessage = (event: any) => {
+    try {
+      const data = JSON.parse(event.nativeEvent.data);
+      if (data.type === 'cleanupComplete') {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error('Error parsing message:', error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -152,11 +165,7 @@ const IntranetScreen = () => {
         startInLoadingState={true}
         scalesPageToFit={true}
         style={styles.webview}
-        renderLoading={() => (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#00204E" />
-          </View>
-        )}
+        onMessage={handleMessage}
       />
       <View style={[styles.headerOverlay, {height: HEADER_HEIGHT}]}>
         <Image
@@ -165,25 +174,17 @@ const IntranetScreen = () => {
           resizeMode="cover"
         />
       </View>
+      <Spinner visible={isLoading} />
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   webview: {
     flex: 1,
-  },
-  loadingContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
   },
   headerOverlay: {
     position: 'absolute',
