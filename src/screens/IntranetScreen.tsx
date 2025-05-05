@@ -50,6 +50,21 @@ const IntranetScreen = () => {
         }
       }
 
+      function handleAuthorLinks() {
+        try {
+          const mainFrame = document.getElementById('main');
+          if (mainFrame && mainFrame.contentDocument) {
+            const authorLinks = mainFrame.contentDocument.querySelectorAll('a[data-automated-id="author-name"]');
+            authorLinks.forEach(link => {
+              link.href = '#';
+              console.log('Author link href modified successfully');
+            });
+          }
+        } catch (e) {
+          // Silently ignore errors
+        }
+      }
+
       function topNewsSidebar() {
         try {
           const mainFrame = document.getElementById('main');
@@ -72,6 +87,7 @@ const IntranetScreen = () => {
       removeFooter();
       removeBreakingNewsOverlay();
       topNewsSidebar();
+      handleAuthorLinks();
       removePublishDateDiv();
 
       // Try again after a short delay to ensure everything is loaded
@@ -79,6 +95,7 @@ const IntranetScreen = () => {
         removeFooter();
         removeBreakingNewsOverlay();
         topNewsSidebar();
+        handleAuthorLinks();
         removePublishDateDiv();
       }, 500);
 
@@ -90,6 +107,7 @@ const IntranetScreen = () => {
             const iframeObserver = new MutationObserver(() => {
               removeFooter();
               topNewsSidebar();
+              handleAuthorLinks();
               removePublishDateDiv();
             });
             iframeObserver.observe(mainFrame.contentDocument.body, {
@@ -107,6 +125,7 @@ const IntranetScreen = () => {
         observeIframeContent();
         removeBreakingNewsOverlay();
         topNewsSidebar();
+        handleAuthorLinks();
         removePublishDateDiv();
       });
       observer.observe(document, {
