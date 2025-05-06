@@ -37,21 +37,6 @@ const IntranetScreen = () => {
         }
       }
 
-      function removePublishDateDiv() {
-        try {
-          const mainFrame = document.getElementById('main');
-          if (mainFrame && mainFrame.contentDocument) {
-            const publishDateDiv = mainFrame.contentDocument.querySelector('#pageControl_publishDate');
-            if (publishDateDiv) {
-              publishDateDiv.remove();
-              console.log('Publish date div removed successfully');
-            }
-          }
-        } catch (e) {
-          // Silently ignore errors
-        }
-      }
-
       function handleAuthorLinks() {
         try {
           const mainFrame = document.getElementById('main');
@@ -90,7 +75,6 @@ const IntranetScreen = () => {
       removeBreakingNewsOverlay();
       topNewsSidebar();
       handleAuthorLinks();
-      removePublishDateDiv();
 
       // Try again after a short delay to ensure everything is loaded
       setTimeout(() => {
@@ -98,7 +82,6 @@ const IntranetScreen = () => {
         removeBreakingNewsOverlay();
         topNewsSidebar();
         handleAuthorLinks();
-        removePublishDateDiv();
         
         // Notify React Native that cleanup is complete
         window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'cleanupComplete' }));
@@ -113,7 +96,6 @@ const IntranetScreen = () => {
               removeFooter();
               topNewsSidebar();
               handleAuthorLinks();
-              removePublishDateDiv();
             });
             iframeObserver.observe(mainFrame.contentDocument.body, {
               childList: true,
@@ -131,7 +113,6 @@ const IntranetScreen = () => {
         removeBreakingNewsOverlay();
         topNewsSidebar();
         handleAuthorLinks();
-        removePublishDateDiv();
       });
       observer.observe(document, {
         childList: true,
